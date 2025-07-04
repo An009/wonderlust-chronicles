@@ -65,9 +65,8 @@ const HeroCarousel: React.FC = () => {
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-transform duration-1000 ease-in-out ${
-            index === currentSlide ? 'translate-x-0' : 
-            index < currentSlide ? '-translate-x-full' : 'translate-x-full'
+          className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+            index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
           }`}
         >
           <img
@@ -80,49 +79,63 @@ const HeroCarousel: React.FC = () => {
           
           {/* Content */}
           <div className="absolute inset-0 flex items-center justify-center text-center text-white">
-            <div className="max-w-4xl mx-auto px-4 animate-fade-in">
-              <h1 className="text-5xl md:text-7xl font-playfair font-bold mb-4 animate-slide-up">
+            <div className="container-lg animate-fade-in">
+              <h1 className="heading-xl mb-6 animate-slide-up">
                 {slide.title}
               </h1>
-              <h2 className="text-xl md:text-2xl font-opensans font-light mb-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              <h2 className="text-xl md:text-3xl font-opensans font-light mb-8 animate-slide-up" 
+                  style={{ animationDelay: '0.2s' }}>
                 {slide.subtitle}
               </h2>
-              <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+              <p className="text-body-lg md:text-xl max-w-3xl mx-auto mb-12 animate-slide-up" 
+                 style={{ animationDelay: '0.4s' }}>
                 {slide.description}
               </p>
-              <button className="btn-primary animate-scale-in" style={{ animationDelay: '0.6s' }}>
-                Start Your Journey
-              </button>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-scale-in" 
+                   style={{ animationDelay: '0.6s' }}>
+                <button className="btn-primary text-lg px-8 py-4">
+                  Start Your Journey
+                </button>
+                <button className="btn-secondary text-lg px-8 py-4">
+                  Explore Destinations
+                </button>
+              </div>
             </div>
           </div>
         </div>
       ))}
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft className="h-6 w-6" />
-      </button>
+      {/* Navigation Controls */}
+      <div className="absolute inset-y-0 left-0 flex items-center">
+        <button
+          onClick={prevSlide}
+          className="ml-6 p-4 rounded-full backdrop-blur-custom hover:bg-white/30 text-white transition-all duration-300 hover:scale-110 shadow-custom"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </button>
+      </div>
       
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110"
-        aria-label="Next slide"
-      >
-        <ChevronRight className="h-6 w-6" />
-      </button>
+      <div className="absolute inset-y-0 right-0 flex items-center">
+        <button
+          onClick={nextSlide}
+          className="mr-6 p-4 rounded-full backdrop-blur-custom hover:bg-white/30 text-white transition-all duration-300 hover:scale-110 shadow-custom"
+          aria-label="Next slide"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </button>
+      </div>
 
       {/* Play/Pause Button */}
-      <button
-        onClick={() => setIsPlaying(!isPlaying)}
-        className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110"
-        aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
-      >
-        {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
-      </button>
+      <div className="absolute top-6 right-6">
+        <button
+          onClick={() => setIsPlaying(!isPlaying)}
+          className="p-4 rounded-full backdrop-blur-custom hover:bg-white/30 text-white transition-all duration-300 hover:scale-110 shadow-custom"
+          aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
+        >
+          {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+        </button>
+      </div>
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3">
@@ -130,14 +143,24 @@ const HeroCarousel: React.FC = () => {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-4 h-4 rounded-full transition-all duration-300 ${
               index === currentSlide 
-                ? 'bg-white scale-125' 
-                : 'bg-white/50 hover:bg-white/75'
+                ? 'bg-white scale-125 shadow-custom' 
+                : 'bg-white/50 hover:bg-white/75 hover:scale-110'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-8 text-white animate-bounce-slow">
+        <div className="flex flex-col items-center space-y-2">
+          <span className="text-sm font-medium">Scroll to explore</span>
+          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
+          </div>
+        </div>
       </div>
     </div>
   );

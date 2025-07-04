@@ -99,41 +99,42 @@ const BlogPreview: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-neutral-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section-padding bg-neutral-50">
+      <div className="container-xl">
         <div ref={ref} className={`text-center mb-16 ${inView ? 'animate-fade-in' : 'opacity-0'}`}>
-          <h2 className="text-4xl md:text-5xl font-playfair font-bold text-earth-primary mb-4">
+          <h2 className="heading-lg text-earth-primary mb-6">
             Latest Stories
           </h2>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+          <p className="text-body-lg max-w-3xl mx-auto text-neutral-600">
             Dive into our latest travel stories, guides, and insights from around the world
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid-responsive">
           {blogPosts.map((post, index) => (
             <article
               key={post.id}
-              className={`card overflow-hidden group ${
+              className={`card-interactive group ${
                 inView ? 'animate-slide-up' : 'opacity-0'
               }`}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <Link to={`/blog/${post.slug}`} className="block">
-                <div className="relative overflow-hidden">
+                <div className="relative overflow-hidden rounded-t-xl">
                   <img
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="image-hover w-full h-48"
                     loading="lazy"
                   />
-                  <div className="absolute top-4 left-4 bg-accent-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="absolute top-4 left-4 badge bg-accent-primary text-white font-semibold">
                     {post.category}
                   </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
-                <div className="p-6">
-                  <div className="flex items-center space-x-4 text-sm text-neutral-500 mb-3">
+                <div className="card-content">
+                  <div className="flex items-center space-x-4 text-caption text-neutral-500 mb-4">
                     <div className="flex items-center space-x-1">
                       <Calendar className="h-4 w-4" />
                       <span>{formatDate(post.date)}</span>
@@ -144,21 +145,23 @@ const BlogPreview: React.FC = () => {
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-playfair font-semibold text-earth-primary mb-3 line-clamp-2 group-hover:text-accent-primary transition-colors duration-300">
+                  <h3 className="heading-sm text-earth-primary mb-4 line-clamp-2 group-hover:text-accent-primary transition-colors duration-300">
                     {post.title}
                   </h3>
 
-                  <p className="text-neutral-600 mb-4 line-clamp-3">
+                  <p className="text-body text-neutral-600 mb-6 line-clamp-3">
                     {post.excerpt}
                   </p>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <User className="h-4 w-4 text-neutral-400" />
-                      <span className="text-sm text-neutral-600">{post.author}</span>
+                      <div className="w-8 h-8 bg-earth-primary/10 rounded-full flex items-center justify-center">
+                        <User className="h-4 w-4 text-earth-primary" />
+                      </div>
+                      <span className="text-body-sm text-neutral-600 font-medium">{post.author}</span>
                     </div>
-                    <div className="flex items-center space-x-1 text-accent-primary group-hover:translate-x-1 transition-transform duration-300">
-                      <span className="text-sm font-medium">Read More</span>
+                    <div className="flex items-center space-x-2 text-accent-primary group-hover:translate-x-1 transition-transform duration-300">
+                      <span className="text-body-sm font-semibold">Read More</span>
                       <ArrowRight className="h-4 w-4" />
                     </div>
                   </div>
@@ -168,8 +171,8 @@ const BlogPreview: React.FC = () => {
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <Link to="/blog" className="btn-primary">
+        <div className="text-center mt-16">
+          <Link to="/blog" className="btn-secondary text-lg px-8 py-4">
             View All Posts
           </Link>
         </div>

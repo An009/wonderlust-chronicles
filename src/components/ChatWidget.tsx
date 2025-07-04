@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User, Sparkles } from 'lucide-react';
 
 interface Message {
   id: number;
@@ -87,31 +87,34 @@ const ChatWidget: React.FC = () => {
       {/* Chat Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 bg-accent-primary hover:bg-accent-secondary text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-50 animate-float ${
+        className={`fixed bottom-8 right-8 bg-gradient-to-r from-accent-primary to-accent-secondary hover:from-accent-secondary hover:to-accent-primary text-white p-4 rounded-full shadow-custom-xl hover:shadow-custom-xl transition-all duration-300 transform hover:scale-110 z-50 animate-float ${
           isOpen ? 'hidden' : 'block'
         }`}
         aria-label="Open chat"
       >
         <MessageCircle className="h-6 w-6" />
+        <div className="absolute -top-1 -right-1 w-4 h-4 bg-nature-primary rounded-full animate-pulse">
+          <Sparkles className="h-3 w-3 text-white absolute top-0.5 left-0.5" />
+        </div>
       </button>
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-white rounded-2xl shadow-2xl z-50 flex flex-col animate-scale-in">
+        <div className="fixed bottom-8 right-8 w-96 h-[600px] card overflow-hidden z-50 animate-scale-in shadow-custom-xl">
           {/* Header */}
-          <div className="bg-gradient-to-r from-earth-primary to-earth-secondary text-white p-4 rounded-t-2xl flex items-center justify-between">
+          <div className="bg-gradient-to-r from-earth-primary to-earth-secondary text-white p-6 flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="bg-white/20 p-2 rounded-full">
-                <Bot className="h-5 w-5" />
+              <div className="bg-white/20 p-2 rounded-full animate-pulse-slow">
+                <Bot className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="font-semibold">AI Travel Assistant</h3>
+                <h3 className="font-semibold text-lg">AI Travel Assistant</h3>
                 <p className="text-sm text-earth-light">Ask me anything!</p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-white hover:bg-white/20 p-1 rounded-full transition-colors"
+              className="text-white hover:bg-white/20 p-2 rounded-full transition-colors"
               aria-label="Close chat"
             >
               <X className="h-5 w-5" />
@@ -119,16 +122,16 @@ const ChatWidget: React.FC = () => {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-neutral-50">
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} animate-slide-up`}
               >
-                <div className={`flex items-start space-x-2 max-w-[80%] ${
+                <div className={`flex items-start space-x-3 max-w-[85%] ${
                   message.isUser ? 'flex-row-reverse space-x-reverse' : ''
                 }`}>
-                  <div className={`p-2 rounded-full ${
+                  <div className={`p-2 rounded-full shadow-custom ${
                     message.isUser ? 'bg-accent-primary' : 'bg-earth-primary'
                   }`}>
                     {message.isUser ? (
@@ -137,13 +140,14 @@ const ChatWidget: React.FC = () => {
                       <Bot className="h-4 w-4 text-white" />
                     )}
                   </div>
-                  <div className={`p-3 rounded-2xl ${
+                  
+                  <div className={`p-4 rounded-2xl shadow-custom ${
                     message.isUser
                       ? 'bg-accent-primary text-white rounded-br-sm'
-                      : 'bg-neutral-100 text-neutral-800 rounded-bl-sm'
+                      : 'bg-white text-neutral-800 rounded-bl-sm border border-neutral-200'
                   }`}>
-                    <p className="text-sm">{message.text}</p>
-                    <p className={`text-xs mt-1 ${
+                    <p className="text-sm leading-relaxed">{message.text}</p>
+                    <p className={`text-xs mt-2 ${
                       message.isUser ? 'text-accent-light' : 'text-neutral-500'
                     }`}>
                       {message.timestamp.toLocaleTimeString([], { 
@@ -157,13 +161,17 @@ const ChatWidget: React.FC = () => {
             ))}
             
             {isTyping && (
-              <div className="flex justify-start">
-                <div className="flex items-start space-x-2">
-                  <div className="bg-earth-primary p-2 rounded-full">
+              <div className="flex justify-start animate-slide-up">
+                <div className="flex items-start space-x-3">
+                  <div className="bg-earth-primary p-2 rounded-full shadow-custom">
                     <Bot className="h-4 w-4 text-white" />
                   </div>
-                  <div className="bg-neutral-100 p-3 rounded-2xl rounded-bl-sm">
-                    <div className="loading-dots text-sm text-neutral-600">Typing</div>
+                  <div className="bg-white p-4 rounded-2xl rounded-bl-sm shadow-custom border border-neutral-200">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-neutral-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -172,20 +180,20 @@ const ChatWidget: React.FC = () => {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-neutral-200">
-            <div className="flex space-x-2">
+          <div className="p-6 border-t border-neutral-200 bg-white">
+            <div className="flex space-x-3">
               <input
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask about destinations, tips, planning..."
-                className="flex-1 px-4 py-2 border border-neutral-300 rounded-full focus:outline-none focus:ring-2 focus:ring-earth-primary focus:border-transparent"
+                className="form-input flex-1 text-sm"
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!inputText.trim() || isTyping}
-                className="bg-earth-primary hover:bg-earth-secondary text-white p-2 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary p-3 disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Send message"
               >
                 <Send className="h-5 w-5" />

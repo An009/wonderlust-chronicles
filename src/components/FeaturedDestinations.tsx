@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Star, Clock } from 'lucide-react';
+import { MapPin, Star, Clock, ArrowRight } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 
 interface Destination {
@@ -83,85 +83,89 @@ const FeaturedDestinations: React.FC = () => {
   });
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section-padding bg-white">
+      <div className="container-xl">
         <div ref={ref} className={`text-center mb-16 ${inView ? 'animate-fade-in' : 'opacity-0'}`}>
-          <h2 className="text-4xl md:text-5xl font-playfair font-bold text-earth-primary mb-4">
+          <h2 className="heading-lg text-earth-primary mb-6">
             Featured Destinations
           </h2>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+          <p className="text-body-lg max-w-3xl mx-auto text-neutral-600">
             Discover handpicked destinations that offer unforgettable experiences and authentic cultural immersion
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid-responsive">
           {destinations.map((destination, index) => (
             <div
               key={destination.id}
-              className={`card overflow-hidden group cursor-pointer ${
+              className={`card-interactive group ${
                 inView ? 'animate-slide-up' : 'opacity-0'
               }`}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="relative overflow-hidden">
+              <div className="relative overflow-hidden rounded-t-xl">
                 <img
                   src={destination.image}
                   alt={destination.name}
-                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="image-hover w-full h-64"
                   loading="lazy"
                 />
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                <div className="absolute top-4 right-4 backdrop-blur-custom px-3 py-2 rounded-full shadow-custom">
                   <div className="flex items-center space-x-1">
-                    <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                    <span className="text-sm font-medium">{destination.rating}</span>
+                    <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                    <span className="text-sm font-semibold text-neutral-800">{destination.rating}</span>
                   </div>
                 </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
 
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
+              <div className="card-content">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-2">
                     <MapPin className="h-4 w-4 text-earth-primary" />
-                    <span className="text-sm text-neutral-600">{destination.country}</span>
+                    <span className="text-body-sm text-neutral-600">{destination.country}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Clock className="h-4 w-4 text-neutral-400" />
-                    <span className="text-sm text-neutral-600">{destination.duration}</span>
+                    <span className="text-body-sm text-neutral-600">{destination.duration}</span>
                   </div>
                 </div>
 
-                <h3 className="text-xl font-playfair font-semibold text-earth-primary mb-2">
+                <h3 className="heading-sm text-earth-primary mb-3 group-hover:text-accent-primary transition-colors duration-300">
                   {destination.name}
                 </h3>
                 
-                <p className="text-neutral-600 mb-4 line-clamp-2">
+                <p className="text-body text-neutral-600 mb-6 line-clamp-2">
                   {destination.description}
                 </p>
 
-                <div className="space-y-2">
-                  <h4 className="text-sm font-semibold text-neutral-700">Highlights:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {destination.highlights.map((highlight, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs bg-nature-primary/10 text-nature-primary px-2 py-1 rounded-full"
-                      >
-                        {highlight}
-                      </span>
-                    ))}
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="text-sm font-semibold text-neutral-700 mb-2">Highlights:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {destination.highlights.map((highlight, idx) => (
+                        <span
+                          key={idx}
+                          className="badge-primary"
+                        >
+                          {highlight}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                <button className="w-full mt-6 bg-earth-primary hover:bg-earth-secondary text-white py-2 px-4 rounded-lg transition-colors duration-300">
-                  Explore Destination
-                </button>
+                  <button className="btn-primary w-full group/btn">
+                    <span>Explore Destination</span>
+                    <ArrowRight className="h-4 w-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="text-center mt-12">
-          <button className="btn-primary">
+        <div className="text-center mt-16">
+          <button className="btn-secondary text-lg px-8 py-4">
             View All Destinations
           </button>
         </div>
