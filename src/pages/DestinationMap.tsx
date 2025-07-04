@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, MarkerClusterGroup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { Icon } from 'leaflet';
 import { Filter, Search, MapPin, Star, Camera } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
+import 'react-leaflet-markercluster/dist/styles.min.css';
 
 // Fix for default markers in React Leaflet
 delete (Icon.Default.prototype as any)._getIconUrl;
